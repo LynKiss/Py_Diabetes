@@ -60,54 +60,28 @@ st.markdown("### Nhập thông tin bệnh nhân để dự đoán nguy cơ mắc
 # Organize inputs into sections
 st.header('📊 Thông tin bệnh nhân')
 
-# Personal Information
-st.subheader('👤 Thông tin cá nhân')
-col1, col2 = st.columns(2)
-with col1:
-    Age = st.slider('Tuổi (1-13, tương ứng với nhóm tuổi)', 1, 13, 5)
-    Sex = st.selectbox('Giới tính', [0, 1], format_func=lambda x: 'Nữ' if x == 0 else 'Nam')
-with col2:
-    Education = st.slider('Trình độ giáo dục (1-6)', 1, 6, 4)
-    Income = st.slider('Thu nhập (1-8)', 1, 8, 5)
-
-# Health Indicators
-st.subheader('🏥 Chỉ số sức khỏe')
-col3, col4 = st.columns(2)
-with col3:
-    BMI = st.slider('Chỉ số BMI', 10.0, 100.0, 25.0)
-    GenHlth = st.slider('Sức khỏe tổng thể (1-5)', 1, 5, 3)
-    MentHlth = st.slider('Sức khỏe tinh thần (số ngày kém trong tháng)', 0, 30, 0)
-with col4:
-    PhysHlth = st.slider('Sức khỏe thể chất (số ngày kém trong tháng)', 0, 30, 0)
-    HighBP = st.selectbox('Huyết áp cao', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-    HighChol = st.selectbox('Cholesterol cao', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-
-# Lifestyle
-st.subheader('🚶 Lối sống')
-col5, col6 = st.columns(2)
-with col5:
-    CholCheck = st.selectbox('Kiểm tra cholesterol trong 5 năm', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-    Smoker = st.selectbox('Hút thuốc', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-    Stroke = st.selectbox('Đột quỵ', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-with col6:
-    HeartDiseaseorAttack = st.selectbox('Bệnh tim hoặc đau tim', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-    PhysActivity = st.selectbox('Hoạt động thể chất', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-    HvyAlcoholConsump = st.selectbox('Uống rượu nặng', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-
-# Medical Access
-st.subheader('🏥 Truy cập y tế')
-col7, col8 = st.columns(2)
-with col7:
-    AnyHealthcare = st.selectbox('Có bảo hiểm y tế', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-with col8:
-    NoDocbcCost = st.selectbox('Không có bác sĩ vì chi phí', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
-    DiffWalk = st.selectbox('Khó đi bộ', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+# Create input widgets for the 15 features used in training
+BMI = st.slider('Chỉ số BMI', 10.0, 100.0, 25.0)
+GenHlth = st.slider('Sức khỏe tổng thể (1-5)', 1, 5, 3)
+MentHlth = st.slider('Sức khỏe tinh thần (số ngày kém trong tháng)', 0, 30, 0)
+PhysHlth = st.slider('Sức khỏe thể chất (số ngày kém trong tháng)', 0, 30, 0)
+Age = st.slider('Tuổi (1-13, tương ứng với nhóm tuổi)', 1, 13, 5)
+Education = st.slider('Trình độ giáo dục (1-6)', 1, 6, 4)
+Income = st.slider('Thu nhập (1-8)', 1, 8, 5)
+HighBP = st.selectbox('Huyết áp cao', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+HighChol = st.selectbox('Cholesterol cao', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+Smoker = st.selectbox('Hút thuốc', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+Stroke = st.selectbox('Đột quỵ', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+HeartDiseaseorAttack = st.selectbox('Bệnh tim hoặc đau tim', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+PhysActivity = st.selectbox('Hoạt động thể chất', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+HvyAlcoholConsump = st.selectbox('Uống rượu nặng', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
+DiffWalk = st.selectbox('Khó đi bộ', [0, 1], format_func=lambda x: 'Không' if x == 0 else 'Có')
 
 # Prediction button
 st.markdown("---")
 if st.button('🔍 Dự đoán'):
-    # Prepare the input data
-    input_data = np.array([[BMI, GenHlth, MentHlth, PhysHlth, Age, Education, Income, HighBP, HighChol, CholCheck, Smoker, Stroke, HeartDiseaseorAttack, PhysActivity, HvyAlcoholConsump, AnyHealthcare, NoDocbcCost, DiffWalk, Sex]])
+    # Prepare the input data for the 15 features
+    input_data = np.array([[BMI, GenHlth, MentHlth, PhysHlth, Age, Education, Income, HighBP, HighChol, Smoker, Stroke, HeartDiseaseorAttack, PhysActivity, HvyAlcoholConsump, DiffWalk]])
 
     # Make prediction
     prediction = model.predict(input_data)
