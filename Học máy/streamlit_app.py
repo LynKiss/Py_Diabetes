@@ -4,7 +4,10 @@ import pickle
 import numpy as np
 
 # Load the trained model
-model = pickle.load(open('Học máy/diabetes_classifier.pkl', 'rb'))
+try:
+    model = pickle.load(open('diabetes_classifier.pkl', 'rb'))
+except FileNotFoundError:
+    model = pickle.load(open('Học máy/diabetes_classifier.pkl', 'rb'))
 
 # Custom CSS for better styling
 st.markdown("""
