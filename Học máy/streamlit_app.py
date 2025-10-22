@@ -13,7 +13,7 @@ except FileNotFoundError:
 st.markdown("""
 <style>
     .main {
-        background-color: #f0f8ff;
+        background-color: #0E1117;
         font-family: 'Arial', sans-serif;
     }
     .stButton>button {
